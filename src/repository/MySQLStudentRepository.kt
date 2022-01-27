@@ -3,6 +3,7 @@ package com.turntabl.repository
 import com.turntabl.database.DatabaseManager
 import com.turntabl.model.Student
 import com.turntabl.model.StudentDraft
+import com.turntabl.model.StudentUpdateDto
 
 class MySQLStudentRepository : StudentRepository {
 
@@ -28,5 +29,9 @@ class MySQLStudentRepository : StudentRepository {
 
     override fun updateStudent(id: Int, draft: StudentDraft): Boolean {
         return database.updateStudent(id, draft)
+    }
+
+    override fun patchStudent(id: Int, draft: StudentUpdateDto): Boolean {
+        return database.patchStudent(id, draft)
     }
 }

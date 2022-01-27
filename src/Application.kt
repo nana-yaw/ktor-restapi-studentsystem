@@ -1,7 +1,7 @@
 package com.turntabl
 
 import com.turntabl.model.StudentDraft
-import com.turntabl.repository.InMemoryStudentRepository
+import com.turntabl.model.StudentUpdateDto
 import com.turntabl.repository.MySQLStudentRepository
 import com.turntabl.repository.StudentRepository
 import io.ktor.application.*
@@ -29,7 +29,7 @@ fun Application.module() {
         val repository:StudentRepository = MySQLStudentRepository()
 
         get("/"){
-            call.respondText("Hello TodoList")
+            call.respondText("Hello StudentList")
         }
 
         get("/students") {
@@ -84,13 +84,13 @@ fun Application.module() {
             } else{
                 call.respond(
                     HttpStatusCode.NotFound,
-                    "Found no todo with the id $studentId"
+                    "Found no Student with the id $studentId"
                 )
             }
         }
 
         patch("/students/{id}") {
-            val studentDraft = call.receive<StudentDraft>()
+            val studentDraft = call.receive<StudentUpdateDto>()
             val studentId = call.parameters["id"]?.toIntOrNull()
 
             if (studentId == null){
@@ -100,14 +100,14 @@ fun Application.module() {
                 )
                 return@patch
             }
-            val updated = repository.updateStudent(studentId, studentDraft)
+            val patched = repository.patchStudent(studentId, studentDraft)
 
-            if (updated){
+            if (patched){
                 call.respond(HttpStatusCode.OK)
             } else{
                 call.respond(
                     HttpStatusCode.NotFound,
-                    "Found no todo with the id $studentId"
+                    "Found no Student with the id $studentId"
                 )
             }
         }
@@ -130,7 +130,7 @@ fun Application.module() {
             } else{
                 call.respond(
                     HttpStatusCode.NotFound,
-                    "Found no todo with the id $studentId"
+                    "Found no Student with the id $studentId"
                 )
             }
         }

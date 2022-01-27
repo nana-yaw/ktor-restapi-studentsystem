@@ -2,6 +2,7 @@ package com.turntabl.database
 
 import com.turntabl.model.Student
 import com.turntabl.model.StudentDraft
+import com.turntabl.model.StudentUpdateDto
 import org.ktorm.database.Database
 import org.ktorm.dsl.delete
 import org.ktorm.dsl.eq
@@ -48,6 +49,21 @@ class DatabaseManager {
         val updatedRows = ktormDatabase.update(DBStudentTable) {
             set(DBStudentTable.name, draft.name)
             set(DBStudentTable.address, draft.address)
+            where {
+                it.id eq id
+            }
+        }
+
+        return updatedRows > 0
+    }
+
+    fun patchStudent(id: Int, draft: StudentUpdateDto): Boolean {
+        val record = getStudent(id) ?: return false
+        val updatedRows = ktormDatabase.update(DBStudentTable) {
+            val name = if (draft.name == "") record.name else draft.name
+            val address = if (draft.address == "") record.address else draft.address
+            set(DBStudentTable.name, name)
+            set(DBStudentTable.address, address)
             where {
                 it.id eq id
             }

@@ -2,6 +2,7 @@ package com.turntabl.repository
 
 import com.turntabl.model.Student
 import com.turntabl.model.StudentDraft
+import com.turntabl.model.StudentUpdateDto
 
 interface StudentRepository {
 
@@ -14,4 +15,6 @@ interface StudentRepository {
     fun removeStudent(id: Int): Boolean
 
     fun updateStudent(id: Int, draft: StudentDraft): Boolean
+
+    fun patchStudent(id: Int, draft: StudentUpdateDto): Boolean
 }

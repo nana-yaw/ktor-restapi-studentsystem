@@ -2,6 +2,7 @@ package com.turntabl.repository
 
 import com.turntabl.model.Student
 import com.turntabl.model.StudentDraft
+import com.turntabl.model.StudentUpdateDto
 
 class InMemoryStudentRepository: StudentRepository {
 
@@ -42,5 +43,9 @@ class InMemoryStudentRepository: StudentRepository {
         student.address = draft.address
 
         return true
+    }
+
+    override fun patchStudent(id: Int, draft: StudentUpdateDto): Boolean {
+        TODO("Not yet implemented")
     }
 }
